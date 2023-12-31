@@ -19,7 +19,6 @@ public enum ModelCost {
     }
 
     public static ModelCost getModelByClass(Class typeOfClass) {
-
         for (var value : values()) {
             if (value.clazz.equals(typeOfClass)) {
                 return value;

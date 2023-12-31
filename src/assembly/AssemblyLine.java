@@ -36,8 +36,6 @@ public class AssemblyLine {
             wheels[i] = fabric.makeWheel(car.getWheelDiameter());
         }
 
-
-
         for (int i = 0; i < Car.MAX_WHEELS; i++) {
             car.setupWheel(wheels[i], i + 1);
         }

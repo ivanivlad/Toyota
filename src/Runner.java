@@ -17,7 +17,28 @@ import static car.Country.JAPAN;
 
 public class Runner {
     public static void main(String[] args) {
+        Camry camry = new Camry(Color.BLACK, 10_000);
+        Solara solara = new Solara(Color.WHITE, 12_000);
+        Hiance hiance = new Hiance(Color.BLACK, 15_000);
+        Dyna dyna = new Dyna(Color.BLACK, 22_000);
 
+        AssemblyLine assemblyLineJapan = new AssemblyLine(JAPAN);
+        assemblyLineJapan.useFabric(new Fabric(JAPAN));
+
+        Storage storage = new Storage();
+        try {
+            storage.addCar(assemblyLineJapan.createCar(camry));
+            storage.addCar(assemblyLineJapan.createCar(solara));
+            storage.addCar(assemblyLineJapan.createCar(hiance));
+            storage.addCar(assemblyLineJapan.createCar(dyna));
+        } catch (FullStorageException e) {
+            throw new RuntimeException(e);
+        }
+
+        Cashier cashier = new Cashier();
+
+        Manager manager = new Manager("Петя");
+        manager.goToWork(storage, assemblyLineJapan);
         Client[] clients = {
                 new Client("Vasya1", 10_000),
                 new Client("Vasya2", 12_000),
@@ -28,37 +49,6 @@ public class Runner {
                 new Client("Vasya7", 8_000),
                 new Client("Vasya8", 30_000),
         };
-
-        Camry camry = new Camry(Color.BLACK, 10_000);
-        Solara solara = new Solara(Color.WHITE, 12_000);
-        Hiance hiance = new Hiance(Color.BLACK, 15_000);
-        Dyna dyna = new Dyna(Color.BLACK, 22_000);
-
-        AssemblyLine assemblyLineJapan = new AssemblyLine(JAPAN);
-        assemblyLineJapan.useFabric(new Fabric(JAPAN));
-
-        Storage storageJapan = new Storage();
-        try {
-            storageJapan.addCar(
-                    assemblyLineJapan.createCar(camry)
-            );
-            storageJapan.addCar(
-                    assemblyLineJapan.createCar(solara)
-            );
-            storageJapan.addCar(
-                    assemblyLineJapan.createCar(hiance)
-            );
-            storageJapan.addCar(
-                    assemblyLineJapan.createCar(dyna)
-            );
-        } catch (FullStorageException e) {
-            throw new RuntimeException(e);
-        }
-
-        Cashier cashier = new Cashier();
-
-        Manager manager = new Manager("Петя");
-        manager.goToWork(storageJapan, assemblyLineJapan);
         for (var client : clients) {
             try {
                 Car car = manager.sellMostExpensiveCar(client);
